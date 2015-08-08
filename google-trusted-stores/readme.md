@@ -18,23 +18,23 @@ NOTE: The instructions provided are not official and were created by myself pers
 
 ##Installation Instructions
 
-*Important notes*
+*Important notes
 
 - This will only work if you have your own dedicated SSL installed for your store. Contact support for details on purchasing a dedicated SSL if you don't have one.
-- These instructions require performing basic HTML/Javscript modifications. Please insure you exercise care when making changes to your storefront, as your storefront's design is not warrantied against user changes. 
+- These instructions require performing basic HTML/Javscript modifications. Please insure you exercise care when making changes to your storefront, as your storefront's design is not warrantied against user changes. *
 
 
 ###Global Code (global.html)
 
 This code appears on all pages and must be inserted into the very bottom of your Site Footer (Design-->Site Design-->Header/Footer).
 
-*Notes*
+*Notes
 
 Adjust line 10 to include your store's ID.
 
 If you're using Google Shopping. please edit line 13 to include your Google Shopping ID. If you're NOT using google shopping, please remove this line. 
 
-In order for the script to work correctly (re: passing the product ID in the right cirumstances) please add this line of HTML to the bottom of ALL product list designs you're using in the store (for Homepage specials, categories, search page, recommended/related products, etc). 
+In order for the script to work correctly (re: passing the product ID in the right cirumstances) please add this line of HTML to the bottom of ALL product list designs you're using in the store (for Homepage specials, categories, search page, recommended/related products, etc). *
 
 
 ````
@@ -49,11 +49,11 @@ This code must be inserted into the bottom of the Confirmation Message field (Op
 
 FYI: Once finalized, you'll need to copy this into the Confirmation Message for each active Payment Method within your store (both Credit Card/Alternate Payments). 
 
-*Notes*
+*Notes
 
 The cart cannot support identifying if an item is backordered, so this has to be set to No (N).
 
-This code sample does NOT include support for digital products. A special modification will be required to use this script and sell eProducts.
+This code sample _does NOT include support for digital products_. A special modification will be required to use this script and sell eProducts.*
 
 
 ###Setting the Estimated Shipping Date/Delivery Date
@@ -86,8 +86,8 @@ Make sure you've read through the global.html and order-confirmation.html files 
 
 Do you use Google Shopping? If so, you'll need to edit the code in the global.html and order-confirmation.html files to include your Google Shopping Account ID.
 
-global.html - Line: 33
-order-confirmation.html - Line: 173
+- global.html - Line: 33
+- order-confirmation.html - Line: 173
 
 
 Questions or problems? Submit an Issue via Github.
