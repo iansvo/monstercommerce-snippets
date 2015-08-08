@@ -1,0 +1,179 @@
+<!-- START Google Trusted Stores Order -->
+<div id="gts-order" style="display:none;" translate="no">
+
+<!-- start order and merchant information -->
+<span id="gts-o-id"><%Order.Number%></span>
+<span id="gts-o-domain">domain.com</span> <!-- Note: SSL is required to use Google Trusted stores-->
+<span id="gts-o-email"><%Customer.Email%></span>
+<span id="gts-o-country">US</span>
+<span id="gts-o-currency">USD</span>
+<span id="gts-o-total"></span>
+<span id="gts-o-discounts"></span>
+<span id="gts-o-shipping-total"></span>
+<span id="gts-o-tax-total"></span>
+<span id="gts-o-est-ship-date">ORDER_EST_SHIP_DATE</span>
+<span id="gts-o-est-delivery-date">ORDER_EST_DELIVERY_DATE</span>
+<span id="gts-o-has-preorder">N</span> <!--This is based on store settings. There isn't a way to programmatically say if something is backordered or not currently-->
+<span id="gts-o-has-digital">N</span> <!-- most merchants don't use eProducts, workaround needs to be created for those who do-->
+<!-- end order and merchant information -->
+
+<!--product info here-->
+
+</div>
+<!-- END Google Trusted Stores Order -->
+
+<script>
+var orderTotalRaw,
+	orderTotal,
+	orderDiscountRaw,
+	orderDiscount,
+	orderShippingRaw,
+	orderShipping,
+	orderTaxRaw,
+	orderTax,
+	shippingDelay,
+  	shippingDay,
+  	shippingMonth,
+	shippingDateObj,
+	shippingDate,
+	estDeliveryTime,
+	deliveryDate,
+	deliveryDay,
+  	deliveryMonth,
+	deliveryDateObj,
+  	orderProdList;
+
+
+//Loads pricing values with XX.XX format, formats price, then enters value into markup
+orderTotalRaw = '<%Order.Total * 1%>';
+orderTotal = orderTotalRaw.replace(/[0-9][0-9]$/g, '');
+$('#gts-o-total').html(orderTotal);
+
+orderDiscountRaw = '<%Order.Discount * 1%>';
+if( orderDiscountRaw > 0 ) 
+{
+	orderDiscount = "-"+orderDiscountRaw.replace(/[0-9][0-9]$/g, '');
+} 
+else
+{
+	orderDiscount = orderDiscountRaw.replace(/[0-9][0-9]$/g, '');
+}
+$('#gts-o-discounts').html(orderDiscount);
+
+orderShippingRaw = '<%Order.ShippingAndHandling * 1%>';
+orderShipping = orderShippingRaw.replace(/[0-9][0-9]$/g, '');
+$('#gts-o-shipping-total').html(orderShipping);
+
+orderTaxRaw = '<%Order.Tax * 1%>';
+orderTax = orderTaxRaw.replace(/[0-9][0-9]$/g, '');
+$('#gts-o-tax-total').html(orderTax);
+
+//Sets up Country Code Value - Required by Google 
+
+$('.invoice-subtitle:contains("Bill To")').next().addClass('billing-address');
+
+$('.billing-address:contains("United States")').addClass('us');
+$('.billing-address:contains("Canada")').addClass('ca');
+$('.billing-address:contains("United Kingdom")').addClass('gb');
+$('.billing-address:contains("Germany")').addClass('de');
+$('.billing-address:contains("France")').addClass('fr');
+
+if( $('.billing-address').hasClass('us') ) 
+{
+	$('#gts-o-country').html('US');
+}
+if( $('.billing-address').hasClass('ca') ) 
+{
+	$('#gts-o-country').html('CA');
+}
+if( $('.billing-address').hasClass('gb') ) 
+{
+	$('#gts-o-country').html('GB');
+}
+if( $('.billing-address').hasClass('de') ) 
+{
+	$('#gts-o-country').html('DE');
+}
+if( $('.billing-address').hasClass('fr') ) 
+{
+	$('#gts-o-country').html('FR');
+}
+
+// setup shipping etas
+
+shippingDelay = 5; // this the estimated number of days until the order ships
+
+shippingDateObj = new Date();
+shippingDateObj.setDate(shippingDateObj.getDate()+shippingDelay);
+
+// Checks date and includes leading zero for single digit values
+
+if( shippingDateObj.getDate() < 9 ) 
+{
+		shippingDay = '0'+shippingDateObj.getDate();
+} else 
+{
+		shippingDay = shippingDateObj.getDate();
+}
+
+if( shippingDateObj.getMonth() < 9 )
+{
+	var a = shippingDateObj.getMonth()+1;
+		shippingMonth = "0"+a;
+} else 
+{
+		shippingMonth = shippingDateObj.getMonth()+1;
+}
+	shippingDate = shippingDateObj.getFullYear();
+	shippingDate += '-' + shippingMonth;
+	shippingDate += '-' + shippingDay;
+
+$('#gts-o-est-ship-date').html(shippingDate); // Applies shipping date value (YYYY-MM-DD)
+
+// setup delivery eta
+
+estDeliveryTime = 5; // this the estimated number of days until the order is delivered once shipping, could be an average transit time
+
+deliveryDateObj = new Date();
+deliveryDateObj.setDate(deliveryDateObj.getDate()+estDeliveryTime);
+
+if( deliveryDateObj.getDate() < 9 ) 
+{
+	deliveryDay = '0'+deliveryDateObj.getDate();
+} else 
+{
+	deliveryDay = deliveryDateObj.getDate();
+}
+
+if( deliveryDateObj.getMonth() < 9 )
+{
+	var a = deliveryDateObj.getMonth()+1;
+		deliveryMonth = "0"+a;
+} else 
+{
+	deliveryMonth = deliveryDateObj.getMonth()+1;
+}
+
+deliveryDate = deliveryDateObj.getFullYear();
+deliveryDate += '-' + deliveryMonth;
+deliveryDate += '-' + deliveryDay;
+
+$('#gts-o-est-delivery-date').html(deliveryDate); // Applies delivery date value (YYYY-MM-DD)
+
+//Setup Product Data
+
+var gtsItem = '';
+	orderProdList = <%Order.ProductsObject%>;
+$.each(orderProdList.products, function(i) {
+	gtsItem += '<span class="gts-item">';
+	gtsItem += '<span class="gts-i-name">'+orderProdList.products[i].name+'</span>';
+	gtsItem += '<span class="gts-i-price">'+orderProdList.products[i].itemPrice+'</span>';
+	gtsItem += '<span class="gts-i-quantity">'+orderProdList.products[i].quantity+'</span>';
+	gtsItem += '<span class="gts-i-prodsearch-id">'+orderProdList.products[i].id+'</span>';
+	gtsItem += '<span class="gts-i-prodsearch-store-id">ITEM_GOOGLE_SHOPPING_ACCOUNT_ID</span>';
+	gtsItem += '<span class="gts-i-prodsearch-country">US</span>';
+	gtsItem += '<span class="gts-i-prodsearch-language">en</span>';
+	gtsItem += '</span>';
+});
+$('#gts-order').append(gtsItem);
+</script>

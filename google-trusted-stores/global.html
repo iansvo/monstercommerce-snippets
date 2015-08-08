@@ -1,0 +1,46 @@
+
+<script>
+// insures that the ProductID value is only transmitted on the right pages
+
+if( $('body').hasClass('category-page-type') || $('body').hasClass('search-page') || $('body').hasClass('recommended-products-page') )
+{
+	var currentProductId = $('.product-id:first').text();
+} 
+else if ( $('body').hasClass('product-page-type') )
+{
+	var currentProductId = $('.productDetailsID').val();
+} 
+else
+{
+	var currentProductId = "";
+}
+</script>
+
+<!-- BEGIN: Google Trusted Stores -->
+<script type="text/javascript">
+var gts = gts || [];
+
+gts.push(["id", "GTS_ID_HERE"]);
+gts.push(["badge_position", "BOTTOM_RIGHT"]);
+gts.push(["locale", "en_US"]);
+
+// insures that the ProductID value is only transmitted on the right pages
+if( $('body').hasClass('category-page-type') || $('body').hasClass('search-page') || $('body').hasClass('recommended-products-page') || $('body').hasClass('product-page-type') )
+{
+	gts.push(["google_base_offer_id", currentProductId]); // loads variable from input on product pages
+}
+
+gts.push(["google_base_subaccount_id", "ITEM_GOOGLE_SHOPPING_ACCOUNT_ID"]); // insert your ID here, if you're not using Google Shopping, remove this
+gts.push(["google_base_country", "US"]);
+gts.push(["google_base_language", "en"]);
+
+(function() {
+var gts = document.createElement("script");
+gts.type = "text/javascript";
+gts.async = true;
+gts.src = "https://www.googlecommerce.com/trustedstores/api/js";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(gts, s);
+})();
+</script>
+<!-- END: Google Trusted Stores -->
