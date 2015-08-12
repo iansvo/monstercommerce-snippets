@@ -1,0 +1,24 @@
+<!--
+NS Free Shipping Countdown
+Author: Ian Svoboda (@iansvo)
+-->
+<div class="free-shipping-countdown">
+	<ns:choose>
+	<ns:when condition="Cart.SubTotal < 100">
+		<div class="msg">Add <span class="free-shipping-addvalue"><%100 - Cart.Subtotal%></span> to your order to qualify for free shipping!</div>
+	</ns:when>
+	<ns:otherwise>
+		<div class="msg qualifies">Your order total qualifies for free shipping!</div>
+	</ns:otherwise>
+	</ns:choose>
+</div>
+<div id="cartsubtotal" style="display: none;"><%Cart.Subtotal%></div>
+<script>
+	(function($) {
+		var addValue = $('.free-shipping-addvalue').text();
+		$('.free-shipping-addvalue').html( MC.formatCurrency(addValue) );
+	})(jQuery);
+</script>
+
+
+This snippet creates a basic "Free Shipping Countdown" with $100 being the minimum purchase to qualify. Message and the qualifying value can be customized directly in the code.
