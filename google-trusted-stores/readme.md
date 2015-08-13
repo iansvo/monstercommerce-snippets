@@ -58,7 +58,7 @@ Again the cart really isn't setup to accommodate this, but you can manually spec
 
 ####Examples: 
 
-If you usually will ship an item within 3 days of the order being placed, you can modfy the code at line 60 like so:
+If you usually will ship an item within 3 days of the order being placed, you can modfy the code at line 104 like so:
 
 ```
     var shippingDelay = 3;
@@ -66,7 +66,7 @@ If you usually will ship an item within 3 days of the order being placed, you ca
 
 *This the estimated number of days until the order ships*
 
-Same goes for the Delivery date estimate (# of days for delivery). For this cart, you'll want to just figure out an average number to place here (i.e. if your shipping methods average a delivery time of 4 days, insert the value 4). See below example (referenced from line 73:
+Same goes for the Delivery date estimate (# of days for delivery). For this cart, you'll want to just figure out an average number to place here (i.e. if your shipping methods average a delivery time of 4 days, insert the value 4). See below example (referenced from line 135:
 
 ```
     var estDeliveryTime = 4;
